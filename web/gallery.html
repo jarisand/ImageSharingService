@@ -35,7 +35,7 @@ and open the template in the editor.
             var img = $('<img id="dynamic">'); //Equivalent: $(document.createElement('img'))
             var path = "file:///127.0.0.1:8888/images/" + object;
             var parsePath = path.replace("file:///", "");
-            img.attr('src', path);
+            img.attr('src', parsePath);
             img.appendTo('#somediv');
             alert(parsePath);
         });
