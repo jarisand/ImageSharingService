@@ -30,7 +30,7 @@ import javax.servlet.http.Part;
  * @author jari
  */
 @WebServlet(urlPatterns = {"/FileUploadServlet"})
-@MultipartConfig(location="/home/jari/uploads/", fileSizeThreshold=1024*1024, 
+@MultipartConfig(location="/var/www/html/images/", fileSizeThreshold=1024*1024, 
     maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class FileUploadServlet extends HttpServlet {
     
@@ -64,14 +64,14 @@ public class FileUploadServlet extends HttpServlet {
         filePart.write(fileName);
         emf = Persistence.createEntityManagerFactory("FileUploadPU");
         em = emf.createEntityManager();
-        String fullPath = "/home/jari/uploads/" + fileName;
+        String fullPath = "127.0.0.1:8888/images/" + fileName;
         
         
         em.getTransaction().begin();
         
         Image image = new Image();
         
-        image.setPath(fullPath);
+        image.setPath(fileName);
         
         em.persist(image);
         

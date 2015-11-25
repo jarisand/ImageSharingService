@@ -19,7 +19,9 @@ import Database.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import javax.imageio.ImageIO;
+import com.google.gson.Gson;
 
 /**
  *
@@ -49,19 +51,30 @@ public class ListImages extends HttpServlet {
             emf = Persistence.createEntityManagerFactory("FileUploadPU");
             em = emf.createEntityManager();
             
+            List<String> list = new ArrayList<String>();
+            
             for(Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()){
                 
                 //out.println("<h2>" + i.getPath() + "</h2>");
                 
-                File f = new File(i.getPath());
+              /*  File f = new File(i.getPath());
                 BufferedImage bi = ImageIO.read(f);
                 OutputStream out2 = response.getOutputStream();
-                response.setContentType("image/png");
-                ImageIO.write(bi, "png", out2);
+                response.setContentType("image/jpeg");
+                ImageIO.write(bi, "jpeg", out2);
+                */
+                //out.println(i.getPath());
+                list.add(i.getPath());
             
             }
-        } catch(Exception e){
             
+            String json = new Gson().toJson(list);
+            
+            out.write(json);
+            
+         
+        } catch(Exception e){
+                System.out.println(e);
         }
         finally{
             em.close();

@@ -12,11 +12,9 @@
     <servlet-name>ImageServlet</servlet-name>
     <servlet-class>ImageServlet</servlet-class>
   </servlet>
-
+  
   <servlet-mapping>
     <servlet-name>DisplayImage</servlet-name>
     <url-pattern>/servlet1</url-pattern>
   </servlet-mapping>
-  
-
 </web-app>

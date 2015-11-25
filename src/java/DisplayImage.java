@@ -12,7 +12,7 @@ public class DisplayImage extends HttpServlet {
     response.setContentType("image/jpg");  
     ServletOutputStream out;  
     out = response.getOutputStream();  
-    FileInputStream fin = new FileInputStream(image.getPath());
+    FileInputStream fin = new FileInputStream("/home/jari/uploads/mato.jpg");
     BufferedInputStream bin = new BufferedInputStream(fin);  
     BufferedOutputStream bout = new BufferedOutputStream(out);  
     int ch =0; ;  
