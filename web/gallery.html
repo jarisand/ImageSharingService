@@ -33,9 +33,9 @@ and open the template in the editor.
         var array = JSON.parse(responseJson);
         array.forEach(function(object){
             var img = $('<img id="dynamic">'); //Equivalent: $(document.createElement('img'))
-            var path = "file:///127.0.0.1:8888/images/" + object;
+            var path = "http://127.0.0.1:8888/images/" + object;
             var parsePath = path.replace("file:///", "");
-            img.attr('src', parsePath);
+            img.attr('src', path);
             img.appendTo('#somediv');
             alert(parsePath);
         });

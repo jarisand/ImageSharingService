@@ -65,8 +65,13 @@ public class ListImages extends HttpServlet {
                 */
                 //out.println(i.getPath());
                 list.add(i.getPath());
+                
             
             }
+            
+           /* for(int i=0; i <= list.size(); i++){
+                    out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
+                    }*/
             
             String json = new Gson().toJson(list);
             
