@@ -6,42 +6,32 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
+        <title>Gallery</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-        <script>
-            $(document).on("click", "#somebutton", function() { // When HTML DOM "click" event is invoked on element with ID "somebutton", execute the following function...
-                $.get("ListImages", function(responseText) {   // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response text...
-                    $("#somediv").text(responseText);           // Locate HTML DOM element with ID "somediv" and set its text content with the response text.
-                });
-            });
-        </script>
+        <script src="flarb.js"></script>
     </head>
     <body id = "somebody">
-        <form method="POST" action="ListImages" enctype="multipart/form-data" >
+        <form method="POST" action="FileUploadServlet" enctype="multipart/form-data" >
             File:
             <input type="file" name="file" id="file" /> <br/>
-            <input type="submit" value="/ListImages" name="upload" id="upload" />
+            <input type="submit" value="Upload" name="upload" id="upload" />
         </form>
-        <img src = "/ListImages" alt="kuvei ei löytyny">
-        <div>TODO write content</div>
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script>
-    $.get("ListImages", function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
-        
-        var array = JSON.parse(responseJson);
-        array.forEach(function(object){
-            var img = $('<img id="dynamic">'); //Equivalent: $(document.createElement('img'))
-            var path = "http://127.0.0.1:8888/images/" + object;
-            var parsePath = path.replace("file:///", "");
-            img.attr('src', path);
-            img.appendTo('#somediv');
-            alert(parsePath);
-        });
-    });
-</script>
-        <button id="somebutton">asd</button>
+        <div id = "buttdiv">
+        <button id="previous">previous</button>
+        <button id="next">next</button>
+        </div>
         <div id="somediv"></div>
+        <div id="commentDiv">
+        <form action="#">
+		<label>Comment</label>
+		<input type="text" id="input" />
+                <button id="submit">Submit</button>
+                <br>
+        <ul id ="comment"></ul>
+        </form>
+        </div>
+        
     </body>
 </html>

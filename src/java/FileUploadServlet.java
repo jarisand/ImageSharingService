@@ -12,11 +12,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -59,6 +62,7 @@ public class FileUploadServlet extends HttpServlet {
     OutputStream out2 = null;
     InputStream filecontent = null;
     final PrintWriter writer = response.getWriter();
+    Date date = new Date();
 
     try {
         filePart.write(fileName);
@@ -72,6 +76,8 @@ public class FileUploadServlet extends HttpServlet {
         Image image = new Image();
         
         image.setPath(fileName);
+        
+        image.setUploaddate(date);
         
         em.persist(image);
         
@@ -110,6 +116,10 @@ public class FileUploadServlet extends HttpServlet {
     }
 }
 
+    public String getCurrentTimeStamp() {
+    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+}
+    
 private String getFileName(final Part part) {
     final String partHeader = part.getHeader("content-disposition");
     for (String content : part.getHeader("content-disposition").split(";")) {
