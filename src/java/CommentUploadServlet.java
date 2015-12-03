@@ -4,31 +4,37 @@
  * and open the template in the editor.
  */
 
+import Database.Comment;
+import Database.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Database.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import com.google.gson.Gson;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/ListImages"})
-public class ListImages extends HttpServlet {
+@WebServlet(name = "CommentUploadServlet", urlPatterns = {"/CommentUploadServlet"})
+public class CommentUploadServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,43 +47,33 @@ public class ListImages extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Image image;
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequest(HttpServletRequest request,
+            HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             try {
+
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
-                List<String> list = new ArrayList<String>();
-                List<String> listID = new ArrayList<String>();
+                String text = request.getParameter("input");
+                //String email = request.getParameter("email");
+                
+                em.getTransaction().begin();
 
-                for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
+                Comment comment = new Comment();
+                comment.setText(text);
 
-                //out.println("<h2>" + i.getPath() + "</h2>");
-                    /*  File f = new File(i.getPath());
-                     BufferedImage bi = ImageIO.read(f);
-                     OutputStream out2 = response.getOutputStream();
-                     response.setContentType("image/jpeg");
-                     ImageIO.write(bi, "jpeg", out2);
-                     */
-                    //out.println(i.getPath());
-                    list.add(i.getPath());
-                    listID.add(i.getIid().toString());
+                em.persist(comment);
+                em.getTransaction().commit();
 
-                }
-
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
-                String json = new Gson().toJson(list);
-
-                out.write(json);
+                out.println("New comment: " + text);
 
             } catch (Exception e) {
-                System.out.println(e);
+                out.println(e);
+
             } finally {
                 em.close();
                 emf.close();
@@ -85,8 +81,22 @@ public class ListImages extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    public String getCurrentTimeStamp() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
+    }
 
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -123,5 +133,6 @@ public class ListImages extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
+
 }

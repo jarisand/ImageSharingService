@@ -27,8 +27,8 @@ import com.google.gson.Gson;
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/ListImages"})
-public class ListImages extends HttpServlet {
+@WebServlet(urlPatterns = {"/ImageIDServlet"})
+public class ImageIDServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,28 +51,15 @@ public class ListImages extends HttpServlet {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
-                List<String> list = new ArrayList<String>();
                 List<String> listID = new ArrayList<String>();
 
                 for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
 
-                //out.println("<h2>" + i.getPath() + "</h2>");
-                    /*  File f = new File(i.getPath());
-                     BufferedImage bi = ImageIO.read(f);
-                     OutputStream out2 = response.getOutputStream();
-                     response.setContentType("image/jpeg");
-                     ImageIO.write(bi, "jpeg", out2);
-                     */
-                    //out.println(i.getPath());
-                    list.add(i.getPath());
                     listID.add(i.getIid().toString());
 
                 }
 
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
-                String json = new Gson().toJson(list);
+                String json = new Gson().toJson(listID);
 
                 out.write(json);
 

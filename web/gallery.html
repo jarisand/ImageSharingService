@@ -19,19 +19,20 @@ and open the template in the editor.
             <input type="submit" value="Upload" name="upload" id="upload" />
         </form>
         <div id = "buttdiv">
-        <button id="previous">previous</button>
-        <button id="next">next</button>
+            <button id="previous">previous</button>
+            <button id="next">next</button>
         </div>
         <div id="somediv"></div>
         <div id="commentDiv">
-        <form action="#">
-		<label>Comment</label>
-		<input type="text" id="input" />
-                <button id="submit">Submit</button>
+                
+            <form action="CommentUploadServlet" method="POST">
+                <label>Comment</label>
+                <input type="text" name="input" />
+                <input id="submit" type="submit" value="Submit" />
                 <br>
-        <ul id ="comment"></ul>
-        </form>
+                <ul id ="comment"></ul>
+            </form>
         </div>
-        
+
     </body>
 </html>
