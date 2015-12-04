@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 import DatabaseNew.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,10 +33,9 @@ import javax.servlet.http.Part;
  * @author jari
  */
 @WebServlet(urlPatterns = {"/FileUploadServlet"})
-@MultipartConfig(location="/var/www/html/images/", fileSizeThreshold=1024*1024, 
-    maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
+@MultipartConfig(location = "/var/www/html/images/", fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class FileUploadServlet extends HttpServlet {
-    
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,69 +47,68 @@ public class FileUploadServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request,
-        HttpServletResponse response)
-        throws ServletException, IOException {
-    response.setContentType("text/html;charset=UTF-8");
-    try(PrintWriter out = response.getWriter()){
+            HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
 
-    // Create path components to save the file
-    final Part filePart = request.getPart("file");
-    final String fileName = getFileName(filePart);
+            // Create path components to save the file
+            final Part filePart = request.getPart("file");
+            final String fileName = getFileName(filePart);
 
-    EntityManager em;
-    EntityManagerFactory emf;
-    OutputStream out2 = null;
-    InputStream filecontent = null;
-    final PrintWriter writer = response.getWriter();
-    Date date = new Date();
+            EntityManager em;
+            EntityManagerFactory emf;
+            OutputStream out2 = null;
+            InputStream filecontent = null;
+            final PrintWriter writer = response.getWriter();
+            Date date = new Date();
 
-    try {
-        filePart.write(fileName);
-        emf = Persistence.createEntityManagerFactory("FileUploadPU");
-        em = emf.createEntityManager();
-        String fullPath = "127.0.0.1:8888/images/" + fileName;
-        
-        
-        em.getTransaction().begin();
-        Image image = new Image();
-        image.setPath(fileName);
-        
-        image.setUploaddate(date);
-        
-        em.persist(image);
-        
-        em.getTransaction().commit();
-        
-        out.println("Polku luotu: " + fullPath);
-        
-    } finally {
-        if (out != null) {
-            out.close();
-        }
-        if (filecontent != null) {
-            filecontent.close();
-        }
-        if (writer != null) {
-            writer.close();
+            try {
+                filePart.write(fileName);
+                emf = Persistence.createEntityManagerFactory("FileUploadPU");
+                em = emf.createEntityManager();
+                String fullPath = "127.0.0.1:8888/images/" + fileName;
+
+                em.getTransaction().begin();
+                Image image = new Image();
+                image.setPath(fileName);
+
+                image.setUploaddate(date);
+
+                em.persist(image);
+
+                em.getTransaction().commit();
+
+                out.println("Polku luotu: " + fullPath);
+
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+                if (filecontent != null) {
+                    filecontent.close();
+                }
+                if (writer != null) {
+                    writer.close();
+                }
+            }
         }
     }
-    }
-}
 
     public String getCurrentTimeStamp() {
-    return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-}
-    
-private String getFileName(final Part part) {
-    final String partHeader = part.getHeader("content-disposition");
-    for (String content : part.getHeader("content-disposition").split(";")) {
-        if (content.trim().startsWith("filename")) {
-            return content.substring(
-                    content.indexOf('=') + 1).trim().replace("\"", "");
-        }
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
     }
-    return null;
-}
+
+    private String getFileName(final Part part) {
+        final String partHeader = part.getHeader("content-disposition");
+        for (String content : part.getHeader("content-disposition").split(";")) {
+            if (content.trim().startsWith("filename")) {
+                return content.substring(
+                        content.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return null;
+    }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -153,5 +150,3 @@ private String getFileName(final Part part) {
     }// </editor-fold>
 
 }
-
-

@@ -42,6 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Image.findByFilesize", query = "SELECT i FROM Image i WHERE i.filesize = :filesize"),
     @NamedQuery(name = "Image.findByUploaddate", query = "SELECT i FROM Image i WHERE i.uploaddate = :uploaddate")})
 public class Image implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -168,5 +169,5 @@ public class Image implements Serializable {
     public String toString() {
         return "Database.Image[ iid=" + iid + " ]";
     }
-    
+
 }

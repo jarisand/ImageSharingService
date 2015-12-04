@@ -47,7 +47,7 @@ public class Image implements Serializable {
     @Column(name = "PATH")
     private String path;
     @Column(name = "UPLOADDATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date uploaddate;
     @JoinTable(name = "TAGS", joinColumns = {
         @JoinColumn(name = "IMAGE_TAG", referencedColumnName = "PATH")}, inverseJoinColumns = {

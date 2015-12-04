@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Rate.findByRid", query = "SELECT r FROM Rate r WHERE r.rid = :rid"),
     @NamedQuery(name = "Rate.findByGrade", query = "SELECT r FROM Rate r WHERE r.grade = :grade")})
 public class Rate implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -108,5 +109,5 @@ public class Rate implements Serializable {
     public String toString() {
         return "Database.Rate[ rid=" + rid + " ]";
     }
-    
+
 }

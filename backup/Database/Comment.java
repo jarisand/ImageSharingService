@@ -32,6 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Comment.findByCid", query = "SELECT c FROM Comment c WHERE c.cid = :cid"),
     @NamedQuery(name = "Comment.findByText", query = "SELECT c FROM Comment c WHERE c.text = :text")})
 public class Comment implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,5 +112,5 @@ public class Comment implements Serializable {
     public String toString() {
         return "Database.Comment[ cid=" + cid + " ]";
     }
-    
+
 }

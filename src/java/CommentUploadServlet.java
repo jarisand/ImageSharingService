@@ -59,12 +59,14 @@ public class CommentUploadServlet extends HttpServlet {
                 em = emf.createEntityManager();
 
                 String text = request.getParameter("input");
+                String image = request.getParameter("image");
                 //String email = request.getParameter("email");
-                
+
                 em.getTransaction().begin();
 
                 Comment comment = new Comment();
                 comment.setText(text);
+                comment.setImagepath(image);
 
                 em.persist(comment);
                 em.getTransaction().commit();

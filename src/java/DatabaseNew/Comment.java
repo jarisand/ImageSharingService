@@ -30,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findByCid", query = "SELECT c FROM Comment c WHERE c.cid = :cid"),
-    @NamedQuery(name = "Comment.findByText", query = "SELECT c FROM Comment c WHERE c.text = :text")})
+    @NamedQuery(name = "Comment.findByText", query = "SELECT c FROM Comment c WHERE c.text = :text"),
+    @NamedQuery(name = "Comment.findByImagepath", query = "SELECT c FROM Comment c WHERE c.imagepath = :imagepath")})
 public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -41,6 +42,9 @@ public class Comment implements Serializable {
     @Size(max = 50)
     @Column(name = "TEXT")
     private String text;
+    @Size(max = 100)
+    @Column(name = "imagepath")
+    private String imagepath;
     @JoinColumn(name = "COMM_IMG", referencedColumnName = "PATH")
     @ManyToOne
     private Image commImg;
@@ -69,6 +73,14 @@ public class Comment implements Serializable {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public String getImagepath() {
+        return imagepath;
+    }
+
+    public void setImagepath(String imagepath) {
+        this.imagepath = imagepath;
     }
 
     public Image getCommImg() {

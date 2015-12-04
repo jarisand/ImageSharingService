@@ -34,21 +34,21 @@ public class ShowImages extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-    String url = request.getParameter("/home/jari/uploads");
-    File f = new File(getServletContext().getRealPath("/images")
-            + File.separator + url + ".jpg");
+        String url = request.getParameter("/home/jari/uploads");
+        File f = new File(getServletContext().getRealPath("/images")
+                + File.separator + url + ".jpg");
 
-    FileInputStream fin = new FileInputStream(f);
-    ServletOutputStream outStream = response.getOutputStream();
-    response.setContentType("image/jpeg");
-    int i = 0;
-    while (i != -1) {
-        i = fin.read();
-        outStream.write(i);
+        FileInputStream fin = new FileInputStream(f);
+        ServletOutputStream outStream = response.getOutputStream();
+        response.setContentType("image/jpeg");
+        int i = 0;
+        while (i != -1) {
+            i = fin.read();
+            outStream.write(i);
+        }
+        fin.close();
+
     }
-    fin.close();
-
-}
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

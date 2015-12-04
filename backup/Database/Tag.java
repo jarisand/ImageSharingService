@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Tag.findByTid", query = "SELECT t FROM Tag t WHERE t.tid = :tid"),
     @NamedQuery(name = "Tag.findByTagName", query = "SELECT t FROM Tag t WHERE t.tagName = :tagName")})
 public class Tag implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -101,5 +102,5 @@ public class Tag implements Serializable {
     public String toString() {
         return "Database.Tag[ tid=" + tid + " ]";
     }
-    
+
 }

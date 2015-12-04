@@ -4,9 +4,11 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Image;
+import DatabaseNew.Comment;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,19 +18,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import com.google.gson.Gson;
 
 /**
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/ListImages"})
-public class ListImages extends HttpServlet {
+@WebServlet(urlPatterns = {"/ImageCommentServlet"})
+public class ImageCommentServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,29 +37,33 @@ public class ListImages extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Image image;
+    Comment comment;
     List<String> list = new ArrayList<String>();
+    CommentServlet c = new CommentServlet();
+    ListImages li = new ListImages();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             try {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
-                
-                //List<String> listID = new ArrayList<String>();
+                for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
 
-                for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
+                    for (int u = 0; u <= li.list.size(); u++) {
+                        if (c.pathlist.contains(li.list.get(u))) {
+                            list.add(i.getText());
 
-                    list.add(i.getPath());
+                        }
+
+                    }
+                    list.add(i.getImagepath());
 
                 }
 
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
                 String json = new Gson().toJson(list);
 
                 out.write(json);
@@ -75,9 +75,6 @@ public class ListImages extends HttpServlet {
                 emf.close();
             }
         }
-    }
-    public String getPath(int index){
-        return this.list.get(index);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -117,5 +114,6 @@ public class ListImages extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
+
 }

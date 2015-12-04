@@ -20,6 +20,12 @@ $(document).ready(function () {
         //alert(comments);
     });
 
+    $.get("ImageCommentServlet", function (responseJson) {
+        var commentlist = JSON.parse(responseJson);
+        console.log(commentlist);
+        alert(commentlist);
+    });
+
     $.get("ListImages", function (responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
         //var numberOfColumns = 4;
         //var columnWidth = Math.round(1 / numberOfColumns) * 100;
@@ -72,13 +78,13 @@ $(document).ready(function () {
 
         $("#submit").click(function () {
             $("#comment").append('<li>' + $('#input').val() + '</li>');
-            location.reload();
-            var lista = [];
-            alert($('#input').val());
+            //var lista = [];
+            $('#image').val(array[index]);
             var o = $('#input').val();
-            lista[0] = [o + " " + array[index]];
-            alert(lista[0]);
-            
+            alert(o);
+            //lista[0] = [o + " " + array[index]];
+            //alert(lista[0]);
+
         });
     });
 
