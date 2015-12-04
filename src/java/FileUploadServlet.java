@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 
-import Database.Image;
+
+import DatabaseNew.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -72,9 +73,7 @@ public class FileUploadServlet extends HttpServlet {
         
         
         em.getTransaction().begin();
-        
         Image image = new Image();
-        
         image.setPath(fileName);
         
         image.setUploaddate(date);
@@ -85,23 +84,6 @@ public class FileUploadServlet extends HttpServlet {
         
         out.println("Polku luotu: " + fullPath);
         
-       /* out = new FileOutputStream(new File(path + File.separator
-                + fileName));
-        filecontent = filePart.getInputStream();
-
-        int read = 0;
-        final byte[] bytes = new byte[1024];
-
-        while ((read = filecontent.read(bytes)) != -1) {
-            out.write(bytes, 0, read);
-        }
-        writer.println("New file " + fileName + " created at " + path);
-        
-    } catch (FileNotFoundException fne) {
-        writer.println("You either did not specify a file to upload or are "
-                + "trying to upload a file to a protected or nonexistent "
-                + "location.");
-        writer.println("<br/> ERROR: " + fne.getMessage());*/
     } finally {
         if (out != null) {
             out.close();

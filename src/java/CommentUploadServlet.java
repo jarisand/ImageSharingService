@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-import Database.Comment;
-import Database.Image;
+import DatabaseNew.Comment;
+import DatabaseNew.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

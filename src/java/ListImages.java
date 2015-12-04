@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import DatabaseNew.Image;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -15,7 +16,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Database.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
@@ -52,20 +52,11 @@ public class ListImages extends HttpServlet {
                 em = emf.createEntityManager();
 
                 List<String> list = new ArrayList<String>();
-                List<String> listID = new ArrayList<String>();
+                //List<String> listID = new ArrayList<String>();
 
                 for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
 
-                //out.println("<h2>" + i.getPath() + "</h2>");
-                    /*  File f = new File(i.getPath());
-                     BufferedImage bi = ImageIO.read(f);
-                     OutputStream out2 = response.getOutputStream();
-                     response.setContentType("image/jpeg");
-                     ImageIO.write(bi, "jpeg", out2);
-                     */
-                    //out.println(i.getPath());
                     list.add(i.getPath());
-                    listID.add(i.getIid().toString());
 
                 }
 

@@ -4,8 +4,7 @@
  * and open the template in the editor.
  */
 
-import Database.Comment;
-import Database.Image;
+import DatabaseNew.Comment;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
