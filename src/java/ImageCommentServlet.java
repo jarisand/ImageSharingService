@@ -5,10 +5,12 @@
  */
 
 import DatabaseNew.Comment;
+import DatabaseNew.Image;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -37,10 +39,12 @@ public class ImageCommentServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Comment comment;
-    List<String> list = new ArrayList<String>();
-    CommentServlet c = new CommentServlet();
-    ListImages li = new ListImages();
+    List<String> imgPathC = new ArrayList<String>();
+    List<String> commentC = new ArrayList<String>();
+    public HashMap<String, String> mappi = new HashMap<String, String>();
+    int u;
+    int j = 0;
+   
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,22 +56,21 @@ public class ImageCommentServlet extends HttpServlet {
                 em = emf.createEntityManager();
 
                 for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
-
-                    for (int u = 0; u <= li.list.size(); u++) {
-                        if (c.pathlist.contains(li.list.get(u))) {
-                            list.add(i.getText());
-
-                        }
-
-                    }
-                    list.add(i.getImagepath());
-
+                    //out.write("Comment.findAll");
+                    imgPathC.add(i.getImagepath());
+                    /**mappi.put(i.getImagepath(), i.getText());
+                    
+                    commentC.add(i.getText());*/
+                    
+                    
                 }
-
-                String json = new Gson().toJson(list);
-
+                
+                /**for(j = 0; j <= imgPathC.size(); j++){ 
+                    this.mappi.put(imgPathC.get(j), commentC.get(j));
+                }
+               */
+                String json = new Gson().toJson(imgPathC);
                 out.write(json);
-
             } catch (Exception e) {
                 System.out.println(e);
             } finally {

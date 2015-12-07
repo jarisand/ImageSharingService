@@ -56,6 +56,7 @@ public class CommentServlet extends HttpServlet {
 
                     list.add(i.getText());
                     pathlist.add(i.getImagepath());
+                    
 
                 }
 
