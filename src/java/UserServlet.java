@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-import java.io.File;
-import java.io.FileInputStream;
+import DatabaseNew.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author jari
+ * @author Elisa Rajaniemi
  */
-@WebServlet(urlPatterns = {"/ShowImages"})
-public class ShowImages extends HttpServlet {
+@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
+public class UserServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -30,24 +26,48 @@ public class ShowImages extends HttpServlet {
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
+     * 
+     * 
      */
+    
+    EntityManager em;
+    EntityManagerFactory emf;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        String url = request.getParameter("/home/jari/uploads");
-        File f = new File(getServletContext().getRealPath("/images")
-                + File.separator + url + ".jpg");
-
-        FileInputStream fin = new FileInputStream(f);
-        ServletOutputStream outStream = response.getOutputStream();
-        response.setContentType("image/jpeg");
-        int i = 0;
-        while (i != -1) {
-            i = fin.read();
-            outStream.write(i);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            
+            try{
+              
+                emf = Persistence.createEntityManagerFactory("FileUploadPU");
+                em = emf.createEntityManager();
+                
+                String username = request.getParameter("username");
+                String email = request.getParameter("email");
+                
+                em.getTransaction().begin();
+                
+                User user = new User();
+                user.setUsername(username);
+                user.setEmail(email);
+                
+                em.persist(user);
+                em.getTransaction().commit();
+                
+                out.println("New user:" + username + " " + email);
+                
+            }
+            catch (Exception e){
+                out.println(e);
+                
+            }
+            finally{
+            em.close();
+            emf.close();
+            }
         }
-        fin.close();
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

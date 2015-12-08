@@ -4,38 +4,30 @@
  * and open the template in the editor.
  */
 
+import DatabaseNew.Comment;
 import DatabaseNew.Image;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import DatabaseNew.User;
+import com.google.gson.Gson;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
 /**
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/FileUploadServlet"})
-@MultipartConfig(location = "/var/www/html/images/", fileSizeThreshold = 1024 * 1024,
-        maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
-public class FileUploadServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/GetEmailServlet"})
+public class GetEmailServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,69 +38,34 @@ public class FileUploadServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request,
-            HttpServletResponse response)
+    EntityManager em;
+    EntityManagerFactory emf;
+    List<String> email = new ArrayList<String>();
+   
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-
-            // Create path components to save the file
-            final Part filePart = request.getPart("file");
-            final String fileName = getFileName(filePart);
-
-            EntityManager em;
-            EntityManagerFactory emf;
-            OutputStream out2 = null;
-            InputStream filecontent = null;
-            final PrintWriter writer = response.getWriter();
-            Date date = new Date();
-
+            /* TODO output your page here. You may use following sample code. */
             try {
-                filePart.write(fileName);
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
-                String fullPath = "127.0.0.1:8888/images/" + fileName;
-                String uploader = request.getParameter("uploader");
 
-                em.getTransaction().begin();
-                Image image = new Image();
-                image.setPath(fileName);
-                image.setUploaddate(date);
-                image.setUploadername(uploader);
+                for (User i : (List<User>) em.createNamedQuery("User.findAll").getResultList()) {
+                    email.add(i.getEmail());
+                    
+                }
 
-                em.persist(image);
-
-                em.getTransaction().commit();
-
-                out.println("Polku luotu: " + fullPath);
-
+                String json = new Gson().toJson(email);
+                out.write(json);
+            } catch (Exception e) {
+                System.out.println(e);
             } finally {
-                if (out != null) {
-                    out.close();
-                }
-                if (filecontent != null) {
-                    filecontent.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
+                em.close();
+                emf.close();
             }
         }
-    }
-
-    public String getCurrentTimeStamp() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS").format(new Date());
-    }
-
-    private String getFileName(final Part part) {
-        final String partHeader = part.getHeader("content-disposition");
-        for (String content : part.getHeader("content-disposition").split(";")) {
-            if (content.trim().startsWith("filename")) {
-                return content.substring(
-                        content.indexOf('=') + 1).trim().replace("\"", "");
-            }
-        }
-        return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

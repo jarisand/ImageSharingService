@@ -13,23 +13,41 @@ and open the template in the editor.
         <script src="flarb.js"></script>
     </head>
     <body id = "somebody">
-        <form method="POST" action="FileUploadServlet" enctype="multipart/form-data" >
+
+        <form action="UserServlet" method="POST">
+            Username: <input type="text" name="username">
+            Email: <input type="text" name="email">
+            <input type="submit" value="Register"/>
+        </form>
+
+        <form>
+            Username: <input id="username" type="text" name="username">
+            Email: <input id="email" type="text" name="email">
+            <button id="sendUser">Login</button>
+            <button id="logout">Log out</button>
+            <p id="userIn"></p>
+
+        </form>
+        <form id="imageupload" method="POST" action="FileUploadServlet" enctype="multipart/form-data" >
             File:
             <input type="file" name="file" id="file" /> <br/>
+            <input id="uploader" type="hidden" name="uploader" />
             <input type="submit" value="Upload" name="upload" id="upload" />
         </form>
+
         <div id = "buttdiv">
             <button id="previous">previous</button>
             <button id="next">next</button>
         </div>
-        <div id="somediv"></div>
+        <div id="somediv">
+            <p id="upnam"></p>
+        </div>
         <div id="commentDiv">
 
-            <form onsubmit="window.location.reload()" action="CommentUploadServlet" method="POST">
+            <form id="commentform" action="CommentUploadServlet" method="POST">
                 <label>Comment</label>
                 <input id="input" type="text" name="input" />
                 <input id="image" type="hidden" name="image" />
-                
                 <input id="submit" type="submit" value="Submit" />
                 <br>
                 <ul id ="comment"></ul>
