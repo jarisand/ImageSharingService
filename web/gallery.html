@@ -19,7 +19,10 @@ and open the template in the editor.
             Email: <input type="text" name="email">
             <input type="submit" value="Register"/>
         </form>
-
+        <form>
+        Search: <input id="search" type="text" name="search">
+        </form>
+        <button id="searchBut">Search</button>
         <form>
             Username: <input id="username" type="text" name="username">
             Email: <input id="email" type="text" name="email">
@@ -31,6 +34,7 @@ and open the template in the editor.
         <form id="imageupload" method="POST" action="FileUploadServlet" enctype="multipart/form-data" >
             File:
             <input type="file" name="file" id="file" /> <br/>
+            Tags: <input id="tags" type="text" name="tags">
             <input id="uploader" type="hidden" name="uploader" />
             <input type="submit" value="Upload" name="upload" id="upload" />
         </form>

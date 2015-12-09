@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
     @NamedQuery(name = "Image.findByPath", query = "SELECT i FROM Image i WHERE i.path = :path"),
     @NamedQuery(name = "Image.findByUploaddate", query = "SELECT i FROM Image i WHERE i.uploaddate = :uploaddate"),
-    @NamedQuery(name = "Image.findByUploadername", query = "SELECT i FROM Image i WHERE i.uploadername = :uploadername")})
+    @NamedQuery(name = "Image.findByUploadername", query = "SELECT i FROM Image i WHERE i.uploadername = :uploadername"),
+    @NamedQuery(name = "Image.findByIid", query = "SELECT i FROM Image i WHERE i.iid = :iid")})
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -53,6 +54,8 @@ public class Image implements Serializable {
     @Size(max = 50)
     @Column(name = "UPLOADERNAME")
     private String uploadername;
+    @Column(name = "IID")
+    private Integer iid;
     @JoinTable(name = "TAGS", joinColumns = {
         @JoinColumn(name = "IMAGE_TAG", referencedColumnName = "PATH")}, inverseJoinColumns = {
         @JoinColumn(name = "TAG", referencedColumnName = "TID")})
@@ -95,6 +98,14 @@ public class Image implements Serializable {
 
     public void setUploadername(String uploadername) {
         this.uploadername = uploadername;
+    }
+
+    public Integer getIid() {
+        return iid;
+    }
+
+    public void setIid(Integer iid) {
+        this.iid = iid;
     }
 
     @XmlTransient

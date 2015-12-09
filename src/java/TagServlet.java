@@ -5,6 +5,7 @@
  */
 
 import DatabaseNew.Image;
+import DatabaseNew.Tag;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -29,8 +30,8 @@ import java.util.Date;
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/ListImages"})
-public class ListImages extends HttpServlet {
+@WebServlet(urlPatterns = {"/TagServlet"})
+public class TagServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,14 +56,13 @@ public class ListImages extends HttpServlet {
                 em = emf.createEntityManager();
 
                 List<String> list = new ArrayList<String>();
-                List<Date> uploadTime = new ArrayList<Date>();
                 
-                //List<String> listID = new ArrayList<String>();
+             
 
-                for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
+                for (Tag i : (List<Tag>) em.createNamedQuery("Tag.findAll").getResultList()) {
 
-                    list.add(i.getPath());
-                    uploadTime.add(i.getUploaddate());
+                    list.add(i.getTagName());
+                   
                    
                 }
                 /* for(int i=0; i <= list.size(); i++){

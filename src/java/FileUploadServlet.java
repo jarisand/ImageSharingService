@@ -5,6 +5,7 @@
  */
 
 import DatabaseNew.Image;
+import DatabaseNew.Tag;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -69,18 +70,24 @@ public class FileUploadServlet extends HttpServlet {
                 em = emf.createEntityManager();
                 String fullPath = "127.0.0.1:8888/images/" + fileName;
                 String uploader = request.getParameter("uploader");
+                String tags = request.getParameter("tags");
 
                 em.getTransaction().begin();
                 Image image = new Image();
+                Tag tag = new Tag();
                 image.setPath(fileName);
+                tag.setImgpath(fileName);
+                tag.setTagName(tags);
                 image.setUploaddate(date);
                 image.setUploadername(uploader);
 
                 em.persist(image);
+                em.persist(tag);
 
                 em.getTransaction().commit();
 
                 out.println("Polku luotu: " + fullPath);
+                out.println("Tagi luotu: " + tags);
 
             } finally {
                 if (out != null) {
@@ -110,6 +117,8 @@ public class FileUploadServlet extends HttpServlet {
         }
         return null;
     }
+
+   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -31,7 +31,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Tag.findAll", query = "SELECT t FROM Tag t"),
     @NamedQuery(name = "Tag.findByTid", query = "SELECT t FROM Tag t WHERE t.tid = :tid"),
-    @NamedQuery(name = "Tag.findByTagName", query = "SELECT t FROM Tag t WHERE t.tagName = :tagName")})
+    @NamedQuery(name = "Tag.findByTagName", query = "SELECT t FROM Tag t WHERE t.tagName = :tagName"),
+    @NamedQuery(name = "Tag.findByImgpath", query = "SELECT t FROM Tag t WHERE t.imgpath = :imgpath")})
 public class Tag implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -42,6 +43,9 @@ public class Tag implements Serializable {
     @Size(max = 50)
     @Column(name = "TAG_NAME")
     private String tagName;
+    @Size(max = 100)
+    @Column(name = "IMGPATH")
+    private String imgpath;
     @ManyToMany(mappedBy = "tagCollection")
     private Collection<Image> imageCollection;
 
@@ -66,6 +70,14 @@ public class Tag implements Serializable {
 
     public void setTagName(String tagName) {
         this.tagName = tagName;
+    }
+
+    public String getImgpath() {
+        return imgpath;
+    }
+
+    public void setImgpath(String imgpath) {
+        this.imgpath = imgpath;
     }
 
     @XmlTransient
