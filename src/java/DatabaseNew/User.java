@@ -49,8 +49,6 @@ public class User implements Serializable {
     private String email;
     @OneToMany(mappedBy = "rater")
     private Collection<Rate> rateCollection;
-    @OneToMany(mappedBy = "commenter")
-    private Collection<Comment> commentCollection;
     @OneToMany(mappedBy = "uploader")
     private Collection<Image> imageCollection;
 
@@ -92,15 +90,6 @@ public class User implements Serializable {
 
     public void setRateCollection(Collection<Rate> rateCollection) {
         this.rateCollection = rateCollection;
-    }
-
-    @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
-    }
-
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
     }
 
     @XmlTransient

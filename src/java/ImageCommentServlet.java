@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Comment;
-import DatabaseNew.Image;
+import DatabaseNew.Commentnew;
+import DatabaseNew.Imagenew;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,9 +53,9 @@ public class ImageCommentServlet extends HttpServlet {
                 em = emf.createEntityManager();
                 List<String> imgPathC = new ArrayList<String>();
                 List<String> commentC = new ArrayList<String>();
-                for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
+                for (Commentnew i : (List<Commentnew>) em.createNamedQuery("Commentnew.findAll").getResultList()) {
                     //out.write("Comment.findAll");
-                    imgPathC.add(i.getImagepath());
+                    imgPathC.add(i.getPath());
                     /**
                      * mappi.put(i.getImagepath(), i.getText());
                      *

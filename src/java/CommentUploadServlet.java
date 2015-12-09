@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Comment;
-import DatabaseNew.Image;
+import DatabaseNew.Commentnew;
+import DatabaseNew.Imagenew;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -60,18 +60,20 @@ public class CommentUploadServlet extends HttpServlet {
 
                 String text = request.getParameter("input");
                 String image = request.getParameter("image");
+                String commenter = request.getParameter("commenter");
                 //String email = request.getParameter("email");
 
                 em.getTransaction().begin();
 
-                Comment comment = new Comment();
+                Commentnew comment = new Commentnew();
                 comment.setText(text);
-                comment.setImagepath(image);
+                comment.setPath(image);
+                comment.setCommenter(commenter);
 
                 em.persist(comment);
                 em.getTransaction().commit();
 
-                out.println("New comment: " + text);
+                out.println("New comment: " + text + " Commenter: " + commenter);
 
             } catch (Exception e) {
                 out.println(e);

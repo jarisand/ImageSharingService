@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Image;
+import DatabaseNew.Imagenew;
 import DatabaseNew.Tag;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -73,7 +73,7 @@ public class FileUploadServlet extends HttpServlet {
                 String tags = request.getParameter("tags");
 
                 em.getTransaction().begin();
-                Image image = new Image();
+                Imagenew image = new Imagenew();
                 Tag tag = new Tag();
                 image.setPath(fileName);
                 tag.setImgpath(fileName);

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Image;
+import DatabaseNew.Imagenew;
 import DatabaseNew.Tag;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -44,7 +44,7 @@ public class TagServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Image image;
+    Imagenew image;
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)

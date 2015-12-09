@@ -4,9 +4,14 @@
  * and open the template in the editor.
  */
 
+import DatabaseNew.Commentnew;
 import DatabaseNew.Imagenew;
+import DatabaseNew.User;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.*;
+import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,19 +21,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import javax.imageio.ImageIO;
-import com.google.gson.Gson;
 
 /**
  *
  * @author jari
  */
-@WebServlet(urlPatterns = {"/GetUploaderNameServlet"})
-public class GetUploaderNameServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/GetCommenterServlet"})
+public class GetCommenterServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,33 +40,28 @@ public class GetUploaderNameServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Imagenew image;
-    List<String> list = new ArrayList<String>();
+    
+   
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             try {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
+                List<String> commenter = new ArrayList<String>();
                 
-                //List<String> listID = new ArrayList<String>();
-
-                for (Imagenew i : (List<Imagenew>) em.createNamedQuery("Imagenew.findAll").getResultList()) {
-
-                    list.add(i.getUploadername());
-
+                for (Commentnew i : (List<Commentnew>) em.createNamedQuery("Commentnew.findAll").getResultList()) {
+                    
+                    commenter.add(i.getCommenter());
+                    
                 }
 
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
-                String json = new Gson().toJson(list);
-
+                String json = new Gson().toJson(commenter);
                 out.write(json);
-
             } catch (Exception e) {
                 System.out.println(e);
             } finally {
@@ -75,9 +69,6 @@ public class GetUploaderNameServlet extends HttpServlet {
                 emf.close();
             }
         }
-    }
-    public String getPath(int index){
-        return this.list.get(index);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -117,5 +108,6 @@ public class GetUploaderNameServlet extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
+    }// </editor-fold>
+
 }

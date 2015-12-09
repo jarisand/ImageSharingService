@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Comment;
+import DatabaseNew.Commentnew;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -37,7 +37,7 @@ public class CommentServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Comment comment;
+    Commentnew comment;
     
     List<String> pathlist = new ArrayList<String>();
 
@@ -52,7 +52,7 @@ public class CommentServlet extends HttpServlet {
 
                 List<String> list = new ArrayList<String>();
 
-                for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
+                for (Commentnew i : (List<Commentnew>) em.createNamedQuery("Commentnew.findAll").getResultList()) {
 
                     list.add(i.getText());
                     

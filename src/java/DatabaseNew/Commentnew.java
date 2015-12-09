@@ -12,8 +12,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -25,37 +23,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author jari
  */
 @Entity
-@Table(name = "COMMENT")
+@Table(name = "COMMENTNEW")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-    @NamedQuery(name = "Comment.findByCid", query = "SELECT c FROM Comment c WHERE c.cid = :cid"),
-    @NamedQuery(name = "Comment.findByText", query = "SELECT c FROM Comment c WHERE c.text = :text"),
-    @NamedQuery(name = "Comment.findByImagepath", query = "SELECT c FROM Comment c WHERE c.imagepath = :imagepath")})
-public class Comment implements Serializable {
+    @NamedQuery(name = "Commentnew.findAll", query = "SELECT c FROM Commentnew c"),
+    @NamedQuery(name = "Commentnew.findByCid", query = "SELECT c FROM Commentnew c WHERE c.cid = :cid"),
+    @NamedQuery(name = "Commentnew.findByText", query = "SELECT c FROM Commentnew c WHERE c.text = :text"),
+    @NamedQuery(name = "Commentnew.findByCommenter", query = "SELECT c FROM Commentnew c WHERE c.commenter = :commenter"),
+    @NamedQuery(name = "Commentnew.findByPath", query = "SELECT c FROM Commentnew c WHERE c.path = :path")})
+public class Commentnew implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "CID")
     private Integer cid;
-    @Size(max = 50)
+    @Size(max = 255)
     @Column(name = "TEXT")
     private String text;
     @Size(max = 100)
-    @Column(name = "imagepath")
-    private String imagepath;
-    @JoinColumn(name = "COMM_IMG", referencedColumnName = "PATH")
-    @ManyToOne
-    private Image commImg;
-    @JoinColumn(name = "COMMENTER", referencedColumnName = "UID")
-    @ManyToOne
-    private User commenter;
+    @Column(name = "COMMENTER")
+    private String commenter;
+    @Size(max = 100)
+    @Column(name = "PATH")
+    private String path;
 
-    public Comment() {
+    public Commentnew() {
     }
 
-    public Comment(Integer cid) {
+    public Commentnew(Integer cid) {
         this.cid = cid;
     }
 
@@ -75,28 +71,20 @@ public class Comment implements Serializable {
         this.text = text;
     }
 
-    public String getImagepath() {
-        return imagepath;
-    }
-
-    public void setImagepath(String imagepath) {
-        this.imagepath = imagepath;
-    }
-
-    public Image getCommImg() {
-        return commImg;
-    }
-
-    public void setCommImg(Image commImg) {
-        this.commImg = commImg;
-    }
-
-    public User getCommenter() {
+    public String getCommenter() {
         return commenter;
     }
 
-    public void setCommenter(User commenter) {
+    public void setCommenter(String commenter) {
         this.commenter = commenter;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
@@ -109,10 +97,10 @@ public class Comment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Comment)) {
+        if (!(object instanceof Commentnew)) {
             return false;
         }
-        Comment other = (Comment) object;
+        Commentnew other = (Commentnew) object;
         if ((this.cid == null && other.cid != null) || (this.cid != null && !this.cid.equals(other.cid))) {
             return false;
         }
@@ -121,7 +109,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "DatabaseNew.Comment[ cid=" + cid + " ]";
+        return "DatabaseNew.Commentnew[ cid=" + cid + " ]";
     }
     
 }

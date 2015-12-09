@@ -38,14 +38,13 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Image.findAll", query = "SELECT i FROM Image i"),
     @NamedQuery(name = "Image.findByPath", query = "SELECT i FROM Image i WHERE i.path = :path"),
     @NamedQuery(name = "Image.findByUploaddate", query = "SELECT i FROM Image i WHERE i.uploaddate = :uploaddate"),
-    @NamedQuery(name = "Image.findByUploadername", query = "SELECT i FROM Image i WHERE i.uploadername = :uploadername"),
-    @NamedQuery(name = "Image.findByIid", query = "SELECT i FROM Image i WHERE i.iid = :iid")})
+    @NamedQuery(name = "Image.findByUploadername", query = "SELECT i FROM Image i WHERE i.uploadername = :uploadername")})
 public class Image implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 1)
     @Column(name = "PATH")
     private String path;
     @Column(name = "UPLOADDATE")
@@ -54,8 +53,6 @@ public class Image implements Serializable {
     @Size(max = 50)
     @Column(name = "UPLOADERNAME")
     private String uploadername;
-    @Column(name = "IID")
-    private Integer iid;
     @JoinTable(name = "TAGS", joinColumns = {
         @JoinColumn(name = "IMAGE_TAG", referencedColumnName = "PATH")}, inverseJoinColumns = {
         @JoinColumn(name = "TAG", referencedColumnName = "TID")})
@@ -63,8 +60,6 @@ public class Image implements Serializable {
     private Collection<Tag> tagCollection;
     @OneToMany(mappedBy = "ratedImg")
     private Collection<Rate> rateCollection;
-    @OneToMany(mappedBy = "commImg")
-    private Collection<Comment> commentCollection;
     @JoinColumn(name = "UPLOADER", referencedColumnName = "UID")
     @ManyToOne
     private User uploader;
@@ -100,14 +95,6 @@ public class Image implements Serializable {
         this.uploadername = uploadername;
     }
 
-    public Integer getIid() {
-        return iid;
-    }
-
-    public void setIid(Integer iid) {
-        this.iid = iid;
-    }
-
     @XmlTransient
     public Collection<Tag> getTagCollection() {
         return tagCollection;
@@ -124,15 +111,6 @@ public class Image implements Serializable {
 
     public void setRateCollection(Collection<Rate> rateCollection) {
         this.rateCollection = rateCollection;
-    }
-
-    @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
-    }
-
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
     }
 
     public User getUploader() {

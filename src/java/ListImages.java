@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Image;
+import DatabaseNew.Imagenew;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
@@ -43,7 +43,7 @@ public class ListImages extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    Image image;
+    Imagenew image;
     
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -59,7 +59,7 @@ public class ListImages extends HttpServlet {
                 
                 //List<String> listID = new ArrayList<String>();
 
-                for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
+                for (Imagenew i : (List<Imagenew>) em.createNamedQuery("Imagenew.findAll").getResultList()) {
 
                     list.add(i.getPath());
                     uploadTime.add(i.getUploaddate());
