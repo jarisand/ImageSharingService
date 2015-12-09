@@ -39,12 +39,9 @@ public class ImageCommentServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    List<String> imgPathC = new ArrayList<String>();
-    List<String> commentC = new ArrayList<String>();
     public HashMap<String, String> mappi = new HashMap<String, String>();
     int u;
     int j = 0;
-   
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -54,21 +51,23 @@ public class ImageCommentServlet extends HttpServlet {
             try {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
-
+                List<String> imgPathC = new ArrayList<String>();
+                List<String> commentC = new ArrayList<String>();
                 for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
                     //out.write("Comment.findAll");
                     imgPathC.add(i.getImagepath());
-                    /**mappi.put(i.getImagepath(), i.getText());
-                    
-                    commentC.add(i.getText());*/
-                    
-                    
+                    /**
+                     * mappi.put(i.getImagepath(), i.getText());
+                     *
+                     * commentC.add(i.getText());
+                     */
+
                 }
-                
-                /**for(j = 0; j <= imgPathC.size(); j++){ 
-                    this.mappi.put(imgPathC.get(j), commentC.get(j));
-                }
-               */
+
+                /**
+                 * for(j = 0; j <= imgPathC.size(); j++){
+                 * this.mappi.put(imgPathC.get(j), commentC.get(j)); }
+                 */
                 String json = new Gson().toJson(imgPathC);
                 out.write(json);
             } catch (Exception e) {

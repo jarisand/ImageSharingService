@@ -20,6 +20,9 @@ var uploaderList = null;
 
 $(document).ready(function () {
     $("#comment").empty();
+    /**for (var b = 0; b <= comments.length; b++) {
+     comments[b] = [];
+     }*/
 
     $.get("GetUploaderNameServlet", function (responseJson) {
         uploaderList = null;
@@ -34,15 +37,15 @@ $(document).ready(function () {
                 emailList = JSON.parse(responseJson);
 
                 $.get("CommentServlet", function (responseJson) {
-                    comments = [];
+                    alert(comments);
                     comments = JSON.parse(responseJson);
-
+                    alert(comments);
                     $.get("ImageCommentServlet", function (responseJson) {
                         commentPath = null;
                         commentPath = JSON.parse(responseJson);
 
-                        $.get("ListImages", function (responseJson) {  
-                            
+                        $.get("ListImages", function (responseJson) {
+
 
                             var $table = $('<table style="width:100%">');
                             var $tbody = $table.append('<tbody />').children('tbody');
@@ -65,10 +68,10 @@ $(document).ready(function () {
                             }
 
                             if (test !== false) {
-                                $("#comment").html("");
                                 alert("ifissääää");
                                 var prevUser = localStorage.getItem('PrevUser');
                                 $("#userIn").append("Hey " + prevUser);
+                                $("#comment").empty();
                                 getComments(index);
                                 alert("Commentsit: " + comments);
                             }
@@ -164,10 +167,13 @@ $(document).ready(function () {
 });
 
 function getComments(index) {
-    $("#comment").empty();
+
     for (var j = 0; j <= commentPath.length; j++) {
+        //$("#comment").empty();
         if (array[index] == commentPath[j]) {
+            if(comments[j] !== undefined){
             $("#comment").append('<li>' + comments[j] + '</li>');
+        }
         }
     }
 }

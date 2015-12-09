@@ -22,6 +22,8 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import com.google.gson.Gson;
+import java.util.Collections;
+import java.util.Date;
 
 /**
  *
@@ -42,7 +44,7 @@ public class ListImages extends HttpServlet {
     EntityManager em;
     EntityManagerFactory emf;
     Image image;
-    List<String> list = new ArrayList<String>();
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,21 +54,24 @@ public class ListImages extends HttpServlet {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
+                List<String> list = new ArrayList<String>();
+                List<Date> uploadTime = new ArrayList<Date>();
                 
                 //List<String> listID = new ArrayList<String>();
 
                 for (Image i : (List<Image>) em.createNamedQuery("Image.findAll").getResultList()) {
 
                     list.add(i.getPath());
-
+                    uploadTime.add(i.getUploaddate());
+                   
                 }
-
+                Collections.sort(list, null);
                 /* for(int i=0; i <= list.size(); i++){
                  out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
                  }*/
                 String json = new Gson().toJson(list);
 
-                out.write(json);
+                out.write(list.toString());
 
             } catch (Exception e) {
                 System.out.println(e);
@@ -75,9 +80,6 @@ public class ListImages extends HttpServlet {
                 emf.close();
             }
         }
-    }
-    public String getPath(int index){
-        return this.list.get(index);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

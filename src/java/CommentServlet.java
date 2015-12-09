@@ -38,7 +38,7 @@ public class CommentServlet extends HttpServlet {
     EntityManager em;
     EntityManagerFactory emf;
     Comment comment;
-    List<String> list = new ArrayList<String>();
+    
     List<String> pathlist = new ArrayList<String>();
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -50,12 +50,11 @@ public class CommentServlet extends HttpServlet {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
-                
+                List<String> list = new ArrayList<String>();
 
                 for (Comment i : (List<Comment>) em.createNamedQuery("Comment.findAll").getResultList()) {
 
                     list.add(i.getText());
-                    pathlist.add(i.getImagepath());
                     
 
                 }
@@ -74,9 +73,6 @@ public class CommentServlet extends HttpServlet {
                 emf.close();
             }
         }
-    }
-    public String getPath(int index){
-        return this.list.get(index);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

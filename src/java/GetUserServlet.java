@@ -40,7 +40,7 @@ public class GetUserServlet extends HttpServlet {
      */
     EntityManager em;
     EntityManagerFactory emf;
-    List<String> user = new ArrayList<String>();
+    
    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -52,6 +52,8 @@ public class GetUserServlet extends HttpServlet {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
 
+                List<String> user = new ArrayList<String>();
+                
                 for (User i : (List<User>) em.createNamedQuery("User.findAll").getResultList()) {
                     user.add(i.getUsername());
                     
