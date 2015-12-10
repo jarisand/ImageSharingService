@@ -1,14 +1,14 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- * 
+ *
  * TODO!!
- * 
- * Kuvien ID:t SQL:stä JS:ään
+ *
+ * Kuvien ID:t SQL:stÃ¤ JS:Ã¤Ã¤n
  * Uploaderit kuville
  * Kommentointi kuviin
- * 
+ *
  */
 var comments = null;
 var commentPath = null;
@@ -19,10 +19,10 @@ var uploaderList = null;
 var tagList = null;
 var tagPathList = null;
 var commenterList = null;
-var errorList= [];
+var errorList = [];
 errorList[0] = "https://www.youtube.com/embed/y2M4-fwISDk?autoplay=1";
 errorList[1] = "https://www.youtube.com/embed/JThq26BZDxU?autoplay=1";
-errorList[2] = "https://youtu.be/M5p9JO9JgvU?autoplay=1";
+errorList[2] = "https://www.youtube.com/embed/M5p9JO9JgvU?autoplay=1";
 
 var $table = $('<table style="width:100%">');
 var $tbody = $table.append('<tbody />').children('tbody');
@@ -31,31 +31,32 @@ $tbody.append('<tr>');
 
 $(document).ready(function () {
     $("#comment").empty();
-    
+
 
     $.get("GetCommenterServlet", function (responseJson) {
         commenterList = JSON.parse(responseJson);
         alert(commenterList);
 
         $.get("GetUploaderNameServlet", function (responseJson) {
-            uploaderList = null;
+
             uploaderList = JSON.parse(responseJson);
             $.get("GetUserServlet", function (responseJson) {
-                userList = null;
+
                 userList = JSON.parse(responseJson);
                 $.get("GetEmailServlet", function (responseJson) {
-                    emailList = null;
+
                     emailList = JSON.parse(responseJson);
                     $.get("CommentServlet", function (responseJson) {
                         alert(comments);
                         comments = JSON.parse(responseJson);
                         alert(comments);
                         $.get("ImageCommentServlet", function (responseJson) {
-                            commentPath = null;
+
                             commentPath = JSON.parse(responseJson);
 
                             $.get("TagServlet", function (responseJson) {
                                 tagList = JSON.parse(responseJson);
+                                alert("taglist: " + tagList);
 
                                 $.get("GetTaggedServlet", function (responseJson) {
                                     tagPathList = JSON.parse(responseJson);
@@ -81,7 +82,7 @@ $(document).ready(function () {
                                         }
 
                                         if (test !== false) {
-                                            alert("ifissääää");
+                                            alert("ifissÃ¤Ã¤Ã¤Ã¤");
                                             var prevUser = localStorage.getItem('PrevUser');
                                             $("#userIn").append("Hey " + prevUser);
                                             $("#comment").empty();
@@ -91,7 +92,7 @@ $(document).ready(function () {
 
 
                                         $('#upnam').text("Uploaded by: " + uploaderList[index]);
-                                        $tbody.append('<img style="display:block;" width="100%" height="100%" src="' + latest + '" " />');
+                                        $tbody.append('<p style="text-align: center;"><img class="image" style="display:block;" width="100%" height="100%" src="' + latest + '" " /></p>');
                                         $tbody.append('</tr>');
                                         $table.append('</table>');
                                         $table.appendTo('#somediv');
@@ -110,7 +111,7 @@ $(document).ready(function () {
                                             var prev = path + array[index];
                                             getComments(index);
                                             $tbody.html("");
-                                            $tbody.append('<img style="display:block;" width="100%" height="100%" src="' + prev + '" " />');
+                                            $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + prev + '" " /></p>');
                                             $('#upnam').text("Uploaded by: " + uploaderList[index]);
                                             console.log(index);
                                         });
@@ -126,7 +127,7 @@ $(document).ready(function () {
                                             var next = path + array[index];
                                             getComments(index);
                                             $tbody.html("");
-                                            $tbody.append('<img style="display:block;" width="100%" height="100%" src="' + next + '" " />');
+                                            $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + next + '" " /></p>');
                                             $('#upnam').text("Uploaded by: " + uploaderList[index]);
                                             console.log(array[index]);
                                         });
@@ -198,7 +199,7 @@ function login() {
             break;
         }
         else {
-            alert("Elsessä");
+            alert("ElsessÃ¤");
         }
     }
     if (logged === false) {
@@ -214,29 +215,31 @@ function search() {
     var path = "http://127.0.0.1:8888/images/";
     $tbody.empty();
     var count = 0;
+    alert("Searchissa: " + tagList);
     for (var j = 0; j <= tagList.length - 1; j++) {
+        alert("Searchissa: " + tagList[j]);
         if (tagList[j].indexOf($('#search').val()) > -1) {
             alert("Tagi: " + tagList[j]);
             alert(path + tagPathList[j]);
-            $tbody.append('<img style="display:block;" width="100%" height="100%" src="' + path + tagPathList[j] + '" " />');
+            $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + path + tagPathList[j] + '" " /></p>');
 
-            for (var i = 0; i <= commentPath.length; i++) {
+           /** for (var i = 0; i <= commentPath.length; i++) {
                 if (tagPathList[j] == commentPath[i]) {
                     if (comments[i] !== undefined) {
                         $("#comment").append('<li>' + comments[i] + '</li>');
                     }
                 }
             }
-
+*/
 
             //$("#comment").append('<li>' + comments[j] + '</li>');
             //this.count = 1;
         }
         else if (tagList.length - 1 == count) {
-            /**var i = Math.floor((Math.random() * 3) + 1);
+            var i = Math.floor((Math.random() * 3) + 1);
             alert(i);
-            $tbody.append('<iframe width="1280" height="720" src="'+i+'" frameborder="0" allowfullscreen></iframe>');
-            */
+            $tbody.append('<iframe width="1280" height="720" src="' + errorList[i - 1] + '" frameborder="0" allowfullscreen></iframe>');
+
         }
         else {
             //alert("VITUIKS MÄN");
@@ -247,4 +250,3 @@ function search() {
 
     }
 }
-

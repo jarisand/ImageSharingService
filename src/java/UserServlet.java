@@ -44,8 +44,8 @@ public class UserServlet extends HttpServlet {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
                 
-                String username = request.getParameter("username");
-                String email = request.getParameter("email");
+                String username = request.getParameter("username1");
+                String email = request.getParameter("email1");
                 
                 em.getTransaction().begin();
                 

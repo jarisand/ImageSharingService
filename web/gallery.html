@@ -1,63 +1,126 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>  
+<html>
     <head>
-        <title>Gallery</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+        <title>Page Title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/css/themes/default/jquery.mobile-1.4.0.min.css">
+        <link rel="stylesheet" href="style.css">
+        <script src="http://demos.jquerymobile.com/1.4.0/js/jquery.js"></script>
+        <script src="http://demos.jquerymobile.com/1.4.0/js/jquery.mobile-1.4.0.min.js"></script>
         <script src="flarb.js"></script>
     </head>
-    <body id = "somebody">
 
-        <form action="User
-              Servlet" method="POST">
-            Username: <input type="text" name="username">
-            Email: <input type="text" name="email">
-            <input type="submit" value="Register"/>
-        </form>
-        <form>
-        Search: <input id="search" type="text" name="search">
-        </form>
-        <button id="searchBut">Search</button>
-        <form>
-            Username: <input id="username" type="text" name="username">
-            Email: <input id="email" type="text" name="email">
-            <button id="sendUser">Login</button>
-            <button id="logout">Log out</button>
-            <p id="userIn"></p>
+    <body>
 
-        </form>
-        <form id="imageupload" method="POST" action="FileUploadServlet" enctype="multipart/form-data" >
-            File:
-            <input type="file" name="file" id="file" /> <br/>
-            Tags: <input id="tags" type="text" name="tags">
-            <input id="uploader" type="hidden" name="uploader" />
-            <input type="submit" value="Upload" name="upload" id="upload" />
-        </form>
+        <div data-role="page" data-theme="b" id="demo-page" class="my-page">
 
-        <div id = "buttdiv">
-            <button id="previous">previous</button>
-            <button id="next">next</button>
-        </div>
-        <div id="somediv">
-            <p id="upnam"></p>
-        </div>
-        <div id="commentDiv">
+            <div data-role="header">
+                <div data-role="navbar" data-grid="d">
+                    <ul>
+                        <li><a href="gallery.html" class="ui-btn-active">Home</a></li>
+                        <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Sign in</a></li>
+                        <li><a href="#popupSignup" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Register</a></li>
+                        <li><a href="#popupUpload" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Upload</a></li>
+                        <li><a href="#popupAbout" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">About</a></li>
+                        <!--li><a href="#" >Log</a></li>-->
+                    </ul>
+                </div>
+            </div>
 
-            <form id="commentform" action="CommentUploadServlet" method="POST">
-                <label>Comment</label>
-                <input id="input" type="text" name="input" />
-                <input id="image" type="hidden" name="image" />
-                <input id="commenter" type="hidden" name="commenter" />
-                <input id="submit" type="submit" value="Submit" />
-                <br>
-                <ul id ="comment"></ul>
-            </form>
+            <div role="main" class="ui-content" >
+                <div class="rwd-example">
+                    <div class="ui-block-a">
+                        <div class="ui-body ui-body-d">
+                            <button class="ui-btn" id="previous">Previous</button>
+                        </div>
+                    </div>
+                    <div class="ui-block-b">
+                        <div class="ui-body ui-body-d">
+                            <form>
+                                <input id="search" type="text" name="search">
+                            </form>
+                            <button id="searchBut">Search</button>
+                            <br>
+
+                            <div id="somediv">
+                                <p id="upnam"></p>
+                            </div>
+                            <div id="commentDiv">
+                                <form id="commentform" action="CommentUploadServlet" method="POST">
+                                    <ul id="comment"></ul>
+                                    <br>
+                                    <label>Comment</label>
+                                    <input id="input" type="text" name="input" />
+                                    <input id="image" type="hidden" name="image" />
+                                    <input id="commenter" type="hidden" name="commenter" />
+                                    <input id="submit" type="submit" value="Submit" />
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui-block-c">
+                        <div class="ui-body ui-body-d">
+                            <button class="ui-btn" id="next">Next</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+                    <form>
+                        <div style="padding:10px 20px;">
+                            <h3>Sign in</h3>
+                            <label for="un" class="ui-hidden-accessible">Username:</label>
+                            <input type="text" name="username" id="username" value="" placeholder="username" data-theme="a" />
+
+                            <label for="pw" class="ui-hidden-accessible">Email:</label>
+                            <input type="password" name="email" id="email" value="" placeholder="email" data-theme="a" />
+
+                            <button id="sendUser" type="submit" data-theme="b">Sign in</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div data-role="popup" id="popupSignup" data-theme="a" class="ui-corner-all">
+                    <form action="UserServlet" method="POST">
+                        <div style="padding:10px 20px;">
+                            <h3>Sign up</h3>
+                            <label for="un" class="ui-hidden-accessible">Username:</label>
+                            <input type="text" name="username1" id="username1" value="" placeholder="username" data-theme="a" />
+
+                            <label for="pw" class="ui-hidden-accessible">Email:</label>
+                            <input type="password" name="email1" id="email1" value="" placeholder="email" data-theme="a" />
+
+                            <button id="sendUser" type="submit" data-theme="b">Register</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div data-role="popup" id="popupUpload" data-theme="a" class="ui-corner-all">
+                    <form id="imageupload" method="POST" action="FileUploadServlet" data-ajax="false" enctype="multipart/form-data" >
+                        <div style="padding:10px 20px;">
+                            <h3>Upload</h3>
+                            File:
+                            <input type="file" name="file" id="file" /> <br/>
+                            Tags: <input id="tags" type="text" name="tags">
+                            <input id="uploader" type="hidden" name="uploader" />
+                            <input type="submit" value="Upload" name="upload" id="upload" />
+                        </div>
+                    </form>
+                </div>
+                <div data-role="popup" id="popupAbout" data-theme="a" class="ui-corner-all">
+                    <form action="UserServlet" method="POST">
+                        <div style="padding:10px 20px;">
+                            <h3>About</h3>
+                            <h4>Basic concepts of web technology</h4>
+                            <h4>Kunniattomat pasket</h4>
+                            <p>Jari Sandström</p>
+                            <p>Elisa Rajaniemi</p>
+                            <p>Carla Miettinen</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </body>
