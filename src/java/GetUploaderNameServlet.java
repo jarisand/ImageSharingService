@@ -16,11 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import javax.imageio.ImageIO;
 import com.google.gson.Gson;
 
 /**
@@ -42,7 +38,7 @@ public class GetUploaderNameServlet extends HttpServlet {
     EntityManager em;
     EntityManagerFactory emf;
     Imagenew image;
-    List<String> list = new ArrayList<String>();
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,19 +47,13 @@ public class GetUploaderNameServlet extends HttpServlet {
             try {
                 emf = Persistence.createEntityManagerFactory("FileUploadPU");
                 em = emf.createEntityManager();
-
-                
-                //List<String> listID = new ArrayList<String>();
+                List<String> list = new ArrayList<String>();
 
                 for (Imagenew i : (List<Imagenew>) em.createNamedQuery("Imagenew.findAll").getResultList()) {
 
                     list.add(i.getUploadername());
 
                 }
-
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
                 String json = new Gson().toJson(list);
 
                 out.write(json);
@@ -75,9 +65,6 @@ public class GetUploaderNameServlet extends HttpServlet {
                 emf.close();
             }
         }
-    }
-    public String getPath(int index){
-        return this.list.get(index);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

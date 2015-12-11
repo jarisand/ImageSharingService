@@ -18,7 +18,8 @@
             <div data-role="header">
                 <div data-role="navbar" data-grid="d">
                     <ul>
-                        <li><a href="#username" class="ui-btn-active">User</a></li>
+                       
+                        <li><a id = "helloUser" href="#hello" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" ></a></li>
                         <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Sign in</a></li>
                         <li><a href="#popupSignup" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Register</a></li>
                         <li><a href="#popupUpload" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Upload</a></li>
@@ -71,7 +72,7 @@
                 </div>
                 
                 
-                <div data-role="button" id="username" data-theme="a" class="ui-corner-all"></div>
+               
                 <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
                     <form>
                         <div style="padding:10px 20px;">
@@ -80,9 +81,10 @@
                             <input type="text" name="username3" id="username3" placeholder="username" data-theme="a" />
                             <label for="pw" class="ui-hidden-accessible">Email:</label>
                             <input type="text" name="email3" id="email3"  placeholder="email" data-theme="a" />
-                            <button id="sendUser3" type="submit" data-theme="b">Sign in</button>
+                            
                         </div>
                     </form>
+                    <button id="sendUser3" type="submit" data-theme="b" style="padding:10px 20px;">Sign in</button>
                 </div>
 
                 
@@ -121,6 +123,7 @@
                     </div>
                       
                 </div>
+                
                 
 
                 <div style="padding:10px 20px;">

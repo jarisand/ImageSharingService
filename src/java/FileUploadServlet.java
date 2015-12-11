@@ -6,17 +6,11 @@
 
 import DatabaseNew.Imagenew;
 import DatabaseNew.Tag;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -51,7 +45,6 @@ public class FileUploadServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        //try (PrintWriter out = response.getWriter()) {
 
         // Create path components to save the file
         final Part filePart = request.getPart("file");
@@ -59,7 +52,6 @@ public class FileUploadServlet extends HttpServlet {
 
         EntityManager em;
         EntityManagerFactory emf;
-        //OutputStream out2 = null;
         InputStream filecontent = null;
         final PrintWriter writer = response.getWriter();
         Date date = new Date();
@@ -89,12 +81,7 @@ public class FileUploadServlet extends HttpServlet {
 
             em.getTransaction().commit();
 
-                //out.println("Polku luotu: " + fullPath);
-            //out.println("Tagi luotu: " + tags);
         } finally {
-            /*if (out != null) {
-             out.close();
-             }*/
             if (filecontent != null) {
                 filecontent.close();
             }
@@ -105,7 +92,6 @@ public class FileUploadServlet extends HttpServlet {
             RequestDispatcher rd = request.getRequestDispatcher("gallery.html");
             rd.forward(request, response);
         }
-        //}
     }
 
     public String getCurrentTimeStamp() {

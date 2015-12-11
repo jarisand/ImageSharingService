@@ -36,7 +36,6 @@ $(document).ready(function () {
 
     $.get("GetCommenterServlet", function (responseJson) {
         commenterList = JSON.parse(responseJson);
-        alert(commenterList);
 
         $.get("GetUploaderNameServlet", function (responseJson) {
 
@@ -48,16 +47,13 @@ $(document).ready(function () {
 
                     emailList = JSON.parse(responseJson);
                     $.get("CommentServlet", function (responseJson) {
-                        alert(comments);
                         comments = JSON.parse(responseJson);
-                        alert(comments);
                         $.get("ImageCommentServlet", function (responseJson) {
 
                             commentPath = JSON.parse(responseJson);
 
                             $.get("TagServlet", function (responseJson) {
                                 tagList = JSON.parse(responseJson);
-                                alert("taglist: " + tagList);
 
                                 $.get("GetTaggedServlet", function (responseJson) {
                                     tagPathList = JSON.parse(responseJson);
@@ -66,33 +62,30 @@ $(document).ready(function () {
                                         array = JSON.parse(responseJson);
 
 
-                                        //var index = 0;
                                         var index = localStorage.getItem('Index');
                                         if (isNaN(index)) {
                                             index = 0;
                                         }
                                         localStorage.setItem('Index', index);
-                                        //indexL = localStorage.getItem('Index');
                                         var path = "http://127.0.0.1:8888/images/";
                                         var latest = path + array[index];
+                                        
                                         //testing if logged in
                                         var prevState = localStorage.getItem('PrevState');
-                                        alert(prevState);
                                         if (prevState === "true") {
                                             var test = true;
                                         } else {
                                             test = false;
                                             $('#imageupload').hide();
                                             $('#commentform').hide();
+                                            $("#helloUser").append("No one in :(");
                                         }
 
-                                        if (test !== false) {
-                                            alert("ifissä");
+                                        if (test !== false) { 
                                             var prevUser = localStorage.getItem('PrevUser');
-                                            $("#userIn").append("Hey " + prevUser);
+                                            $("#helloUser").append("Hey " + prevUser);
                                             $("#comment").empty();
                                             getComments(index);
-                                            alert("Commentsit: " + comments);
                                         }
 
 
@@ -101,10 +94,10 @@ $(document).ready(function () {
                                         $tbody.append('</tr>');
                                         $table.append('</table>');
                                         $table.appendTo('#somediv');
+                                        
                                         //previoius image
                                         $('#previous').click(function () {
                                             $('#commentDiv').show();
-                                            //index = localStorage.getItem('Index');
                                             $("#comment").html("");
                                             if (index == -1) {
                                                 index = array.length - 2;
@@ -155,7 +148,6 @@ $(document).ready(function () {
                                             var commenter = localStorage.getItem('PrevUser')
                                             $('#commenter').val(commenter);
                                             var o = $('#input').val();
-                                            alert(o);
                                             location.reload();
                                         });
                                         //sending uploadername to image table
@@ -164,18 +156,16 @@ $(document).ready(function () {
                                             var prevUser = localStorage.getItem('PrevUser');
                                             $('#uploader').val(prevUser);
                                             var uploaderi = $('#uploader').val();
-                                            alert(uploaderi);
                                         });
                                         //login
                                         $("#sendUser3").click(function () {
-                                            location.reload(true);
+                                            location.reload();
                                             login();
                                             logged = true;
-                                            
+                                            location.reload();
                                         });
                                         //logout
                                         $("#signOut").click(function () {
-                                            alert("logoutissa");
                                             logout();
 
                                             logged = false;
@@ -231,65 +221,45 @@ function getCommentsSearch(index) {
 function login() {
     var logged = false;
     for (var j = 0; j <= userList.length; j++) {
-
         if (userList[j] == $('#username3').val() && emailList[j] == $('#email3').val()) {
             logged = true;
-            //$('#userIn').append("Hey " + $('#username').val());
             localStorage.setItem('PrevUser', $('#username3').val());
             localStorage.setItem('PrevState', true);
-            location.reload(true);
             break;
         }
-        else {
-            //alert("Elsessä");
-        }
-
     }
     if (logged === false) {
-        alert("Ei nyt oikein mennyt oikein!");
+        alert("Incorrect credentials");
     }
 }
 
 function logout() {
-    //$("#userIn").html("");
     localStorage.setItem('PrevState', false);
     localStorage.setItem('Index', 0);
-    //localStorage.setItem('PrevUser', "");
 }
+
 function search() {
     var path = "http://127.0.0.1:8888/images/";
     $tbody.empty();
     $('#commentDiv').hide();
     var count = 0;
-    //alert("Searchissa: " + tagList);
     for (var j = 0; j <= tagList.length - 1; j++) {
-        //alert("Searchissa: " + tagList[j]);
         if (tagList[j].indexOf($('#search').val()) > -1) {
-            //alert("Tagi: " + tagList[j]);
-            //alert(path + tagPathList[j]);
-            //$tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + path + tagPathList[j] + '" " /></p>');
 
             localStorage.setItem('Index', j);
             var searched = path + tagPathList[j];
-
-            //$tbody.html("");
+            
             $('#upnam').text("Uploaded by: " + uploaderList[j]);
             $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + searched + '" " /></p>');
-            //$tbody.append('<div><button onclick="logout()">Nappula</button></div>');
-            
-            
-           
-
 
         }
         else if (tagList.length - 1 == count) {
             var i = Math.floor((Math.random() * 3) + 1);
-            alert(i);
-            $tbody.append('<iframe width="1280" height="720" src="' + errorList[i - 1] + '" frameborder="0" allowfullscreen></iframe>');
+            $tbody.append('<iframe width="100%" height="720" src="' + errorList[i - 1] + '" frameborder="0" allowfullscreen></iframe>');
 
         }
         else {
-            //alert("VITUIKS MÄN");
+            
             count++;
 
         }

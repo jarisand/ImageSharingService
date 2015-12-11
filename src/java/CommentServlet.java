@@ -58,10 +58,6 @@ public class CommentServlet extends HttpServlet {
                     
 
                 }
-
-                /* for(int i=0; i <= list.size(); i++){
-                 out.println("<figure><img src="+list.get(i)+"><figcaption></figcaption></figure><br>");
-                 }*/
                 String json2 = new Gson().toJson(list);
 
                 out.write(json2);

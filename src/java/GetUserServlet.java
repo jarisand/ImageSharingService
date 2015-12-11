@@ -4,14 +4,11 @@
  * and open the template in the editor.
  */
 
-import DatabaseNew.Commentnew;
-import DatabaseNew.Imagenew;
 import DatabaseNew.User;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

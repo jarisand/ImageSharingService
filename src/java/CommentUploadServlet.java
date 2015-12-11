@@ -5,24 +5,15 @@
  */
 
 import DatabaseNew.Commentnew;
-import DatabaseNew.Imagenew;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -61,8 +52,7 @@ public class CommentUploadServlet extends HttpServlet {
                 String text = request.getParameter("input");
                 String image = request.getParameter("image");
                 String commenter = request.getParameter("commenter");
-                //String email = request.getParameter("email");
-
+                
                 em.getTransaction().begin();
 
                 Commentnew comment = new Commentnew();
