@@ -51,56 +51,61 @@ public class FileUploadServlet extends HttpServlet {
             HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        //try (PrintWriter out = response.getWriter()) {
 
-            // Create path components to save the file
-            final Part filePart = request.getPart("file");
-            final String fileName = getFileName(filePart);
+        // Create path components to save the file
+        final Part filePart = request.getPart("file");
+        final String fileName = getFileName(filePart);
 
-            EntityManager em;
-            EntityManagerFactory emf;
-            OutputStream out2 = null;
-            InputStream filecontent = null;
-            final PrintWriter writer = response.getWriter();
-            Date date = new Date();
+        EntityManager em;
+        EntityManagerFactory emf;
+        //OutputStream out2 = null;
+        InputStream filecontent = null;
+        final PrintWriter writer = response.getWriter();
+        Date date = new Date();
 
-            try {
-                filePart.write(fileName);
-                emf = Persistence.createEntityManagerFactory("FileUploadPU");
-                em = emf.createEntityManager();
-                String fullPath = "127.0.0.1:8888/images/" + fileName;
-                String uploader = request.getParameter("uploader");
-                String tags = request.getParameter("tags");
-
-                em.getTransaction().begin();
-                Imagenew image = new Imagenew();
-                Tag tag = new Tag();
-                image.setPath(fileName);
-                tag.setImgpath(fileName);
-                tag.setTagName(tags);
-                image.setUploaddate(date);
-                image.setUploadername(uploader);
-
-                em.persist(image);
-                em.persist(tag);
-
-                em.getTransaction().commit();
-
-                out.println("Polku luotu: " + fullPath);
-                out.println("Tagi luotu: " + tags);
-
-            } finally {
-                if (out != null) {
-                    out.close();
-                }
-                if (filecontent != null) {
-                    filecontent.close();
-                }
-                if (writer != null) {
-                    writer.close();
-                }
+        try {
+            filePart.write(fileName);
+            emf = Persistence.createEntityManagerFactory("FileUploadPU");
+            em = emf.createEntityManager();
+            String fullPath = "127.0.0.1:8888/images/" + fileName;
+            String uploader = request.getParameter("uploader");
+            String tags = request.getParameter("tags");
+            if(tags.equals("")){
+            tags = "default";
             }
+
+            em.getTransaction().begin();
+            Imagenew image = new Imagenew();
+            Tag tag = new Tag();
+            image.setPath(fileName);
+            tag.setImgpath(fileName);
+            tag.setTagName(tags);
+            image.setUploaddate(date);
+            image.setUploadername(uploader);
+
+            em.persist(image);
+            em.persist(tag);
+
+            em.getTransaction().commit();
+
+                //out.println("Polku luotu: " + fullPath);
+            //out.println("Tagi luotu: " + tags);
+        } finally {
+            /*if (out != null) {
+             out.close();
+             }*/
+            if (filecontent != null) {
+                filecontent.close();
+            }
+            if (writer != null) {
+                writer.close();
+            }
+
+            RequestDispatcher rd = request.getRequestDispatcher("gallery.html");
+            rd.forward(request, response);
         }
+        //}
     }
 
     public String getCurrentTimeStamp() {
@@ -117,8 +122,6 @@ public class FileUploadServlet extends HttpServlet {
         }
         return null;
     }
-
-   
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

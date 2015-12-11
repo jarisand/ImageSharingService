@@ -3,7 +3,7 @@
     <head>
         <title>Page Title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
         <link rel="stylesheet" href="http://demos.jquerymobile.com/1.4.0/css/themes/default/jquery.mobile-1.4.0.min.css">
         <link rel="stylesheet" href="style.css">
         <script src="http://demos.jquerymobile.com/1.4.0/js/jquery.js"></script>
@@ -18,16 +18,16 @@
             <div data-role="header">
                 <div data-role="navbar" data-grid="d">
                     <ul>
-                        <li><a href="gallery.html" class="ui-btn-active">Home</a></li>
+                        <li><a href="#username" class="ui-btn-active">User</a></li>
                         <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Sign in</a></li>
                         <li><a href="#popupSignup" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Register</a></li>
                         <li><a href="#popupUpload" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">Upload</a></li>
-                        <li><a href="#popupAbout" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">About</a></li>
-                        <!--li><a href="#" >Log</a></li>-->
+                        <!--li><a href="#popupAbout" data-rel="popup" data-position-to="window" data-role="button" data-inline="true">About</a></li>-->
+                        <li><a href="#signout" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" >Log out</a></li>
                     </ul>
                 </div>
             </div>
-
+           
             <div role="main" class="ui-content" >
                 <div class="rwd-example">
                     <div class="ui-block-a">
@@ -46,6 +46,8 @@
                             <div id="somediv">
                                 <p id="upnam"></p>
                             </div>
+                            
+                            
                             <div id="commentDiv">
                                 <form id="commentform" action="CommentUploadServlet" method="POST">
                                     <ul id="comment"></ul>
@@ -59,42 +61,44 @@
                             </div>
                         </div>
                     </div>
+                    
+                    
                     <div class="ui-block-c">
                         <div class="ui-body ui-body-d">
                             <button class="ui-btn" id="next">Next</button>
                         </div>
                     </div>
                 </div>
-
+                
+                
+                <div data-role="button" id="username" data-theme="a" class="ui-corner-all"></div>
                 <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
                     <form>
                         <div style="padding:10px 20px;">
                             <h3>Sign in</h3>
                             <label for="un" class="ui-hidden-accessible">Username:</label>
-                            <input type="text" name="username" id="username" value="" placeholder="username" data-theme="a" />
-
+                            <input type="text" name="username3" id="username3" placeholder="username" data-theme="a" />
                             <label for="pw" class="ui-hidden-accessible">Email:</label>
-                            <input type="password" name="email" id="email" value="" placeholder="email" data-theme="a" />
-
-                            <button id="sendUser" type="submit" data-theme="b">Sign in</button>
+                            <input type="text" name="email3" id="email3"  placeholder="email" data-theme="a" />
+                            <button id="sendUser3" type="submit" data-theme="b">Sign in</button>
                         </div>
                     </form>
                 </div>
 
+                
                 <div data-role="popup" id="popupSignup" data-theme="a" class="ui-corner-all">
                     <form action="UserServlet" method="POST">
                         <div style="padding:10px 20px;">
-                            <h3>Sign up</h3>
+                            <h3>Register</h3>
                             <label for="un" class="ui-hidden-accessible">Username:</label>
-                            <input type="text" name="username1" id="username1" value="" placeholder="username" data-theme="a" />
-
+                            <input type="text" name="username1" id="username1"  placeholder="username" data-theme="a" />
                             <label for="pw" class="ui-hidden-accessible">Email:</label>
-                            <input type="password" name="email1" id="email1" value="" placeholder="email" data-theme="a" />
-
-                            <button id="sendUser" type="submit" data-theme="b">Register</button>
+                            <input type="text" name="email1" id="email1"  placeholder="email" data-theme="a" />
+                            <button id="sendUser1" type="submit" data-theme="b">Register</button>
                         </div>
                     </form>
                 </div>
+                
 
                 <div data-role="popup" id="popupUpload" data-theme="a" class="ui-corner-all">
                     <form id="imageupload" method="POST" action="FileUploadServlet" data-ajax="false" enctype="multipart/form-data" >
@@ -108,18 +112,27 @@
                         </div>
                     </form>
                 </div>
-                <div data-role="popup" id="popupAbout" data-theme="a" class="ui-corner-all">
-                    <form action="UserServlet" method="POST">
-                        <div style="padding:10px 20px;">
-                            <h3>About</h3>
-                            <h4>Basic concepts of web technology</h4>
-                            <h4>Kunniattomat pasket</h4>
-                            <p>Jari Sandström</p>
-                            <p>Elisa Rajaniemi</p>
-                            <p>Carla Miettinen</p>
-                        </div>
-                    </form>
+                
+                
+                <div data-role="popup" id="signout" data-theme="a" class="ui-corner-all">
+                    <div style="padding:10px 20px;">
+                    <h3>Want to sign out?</h3>
+                    <button id ="signOut" data-theme="b">Sign out</button>
+                    </div>
+                      
                 </div>
+                
+
+                <div style="padding:10px 20px;">
+                    <h3>About</h3>
+                    <h4>Basic concepts of web technology</h4>
+                    <h4>Kunniattomat pasket</h4>
+                    <p>Jari Sandström</p>
+                    <p>Elisa Rajaniemi</p>
+                    <p>Carla Miettinen</p>
+                </div>
+
+
             </div>
         </div>
 

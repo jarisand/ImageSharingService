@@ -81,6 +81,8 @@ public class CommentUploadServlet extends HttpServlet {
             } finally {
                 em.close();
                 emf.close();
+                RequestDispatcher rd = request.getRequestDispatcher("gallery.html");
+                rd.forward(request, response);
             }
         }
     }

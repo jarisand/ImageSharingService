@@ -10,6 +10,7 @@
  * Kommentointi kuviin
  *
  */
+
 var comments = null;
 var commentPath = null;
 var array = null;
@@ -62,12 +63,16 @@ $(document).ready(function () {
                                     tagPathList = JSON.parse(responseJson);
 
                                     $.get("ListImages", function (responseJson) {
-
-
-
-                                        array = null;
                                         array = JSON.parse(responseJson);
-                                        var index = 0;
+
+
+                                        //var index = 0;
+                                        var index = localStorage.getItem('Index');
+                                        if (isNaN(index)) {
+                                            index = 0;
+                                        }
+                                        localStorage.setItem('Index', index);
+                                        //indexL = localStorage.getItem('Index');
                                         var path = "http://127.0.0.1:8888/images/";
                                         var latest = path + array[index];
                                         //testing if logged in
@@ -82,7 +87,7 @@ $(document).ready(function () {
                                         }
 
                                         if (test !== false) {
-                                            alert("ifissÃ¤Ã¤Ã¤Ã¤");
+                                            alert("ifissä");
                                             var prevUser = localStorage.getItem('PrevUser');
                                             $("#userIn").append("Hey " + prevUser);
                                             $("#comment").empty();
@@ -98,16 +103,22 @@ $(document).ready(function () {
                                         $table.appendTo('#somediv');
                                         //previoius image
                                         $('#previous').click(function () {
+                                            $('#commentDiv').show();
+                                            //index = localStorage.getItem('Index');
                                             $("#comment").html("");
                                             if (index == -1) {
                                                 index = array.length - 2;
+                                                localStorage.setItem('Index', index);
                                             }
                                             else if (index <= 0) {
                                                 index = array.length - 1;
+                                                localStorage.setItem('Index', index);
                                             }
                                             else {
                                                 index--;
+                                                localStorage.setItem('Index', index);
                                             }
+
                                             var prev = path + array[index];
                                             getComments(index);
                                             $tbody.html("");
@@ -117,12 +128,16 @@ $(document).ready(function () {
                                         });
                                         //next image
                                         $('#next').click(function () {
+                                            $('#commentDiv').show();
+                                            index = localStorage.getItem('Index');
                                             $("#comment").html("");
                                             if (index >= array.length - 1) {
                                                 index = 0;
+                                                localStorage.setItem('Index', index);
                                             }
                                             else {
                                                 index++;
+                                                localStorage.setItem('Index', index);
                                             }
                                             var next = path + array[index];
                                             getComments(index);
@@ -133,6 +148,7 @@ $(document).ready(function () {
                                         });
                                         //sending comment, commenter and imagepath to comment table
                                         $("#submit").click(function () {
+                                            index = localStorage.getItem('Index');
                                             $("#comment").html("");
                                             $("#comment").append('<li>' + $('#input').val() + '</li>');
                                             $('#image').val(array[index]);
@@ -140,6 +156,7 @@ $(document).ready(function () {
                                             $('#commenter').val(commenter);
                                             var o = $('#input').val();
                                             alert(o);
+                                            location.reload();
                                         });
                                         //sending uploadername to image table
                                         $("#upload").click(function () {
@@ -150,22 +167,31 @@ $(document).ready(function () {
                                             alert(uploaderi);
                                         });
                                         //login
-                                        $("#sendUser").click(function () {
+                                        $("#sendUser3").click(function () {
+                                            location.reload(true);
                                             login();
                                             logged = true;
+                                            
                                         });
                                         //logout
-                                        $("#logout").click(function () {
+                                        $("#signOut").click(function () {
+                                            alert("logoutissa");
                                             logout();
+
                                             logged = false;
                                             $('#imageupload').hide();
                                             $('#commentform').hide();
+                                            location.reload();
                                         });
                                         //search
                                         $("#searchBut").click(function () {
                                             search();
 
                                         });
+                                        
+                                        $('img').click(function(){
+                                            alert(path + array[index]);
+                                    });
                                     });
                                 });
                             });
@@ -188,19 +214,36 @@ function getComments(index) {
     }
 }
 
+function getCommentsSearch(index) {
+
+    for (var j = 0; j <= commentPath.length; j++) {
+        $("#comment").empty();
+        if (tagPathList[index] == commentPath[j]) {
+            if (comments[j] !== undefined) {
+                //$("#comment").append('<li>' + commenterList[j] + " commented: " + comments[j] + '</li>');
+                $tbody.append('<ul "style= text-align : left" "margin-left: -50px;"list-style: none;"><li>' + commenterList[j] + " commented: " + comments[j] + '</li></ul>');
+
+            }
+        }
+    }
+}
+
 function login() {
     var logged = false;
     for (var j = 0; j <= userList.length; j++) {
-        if (userList[j] == $('#username').val() && emailList[j] == $('#email').val()) {
+
+        if (userList[j] == $('#username3').val() && emailList[j] == $('#email3').val()) {
             logged = true;
-            $('#userIn').append("Hey " + $('#username').val());
-            localStorage.setItem('PrevUser', $('#username').val());
-            localStorage.setItem('PrevState', logged);
+            //$('#userIn').append("Hey " + $('#username').val());
+            localStorage.setItem('PrevUser', $('#username3').val());
+            localStorage.setItem('PrevState', true);
+            location.reload(true);
             break;
         }
         else {
-            alert("ElsessÃ¤");
+            //alert("Elsessä");
         }
+
     }
     if (logged === false) {
         alert("Ei nyt oikein mennyt oikein!");
@@ -208,32 +251,36 @@ function login() {
 }
 
 function logout() {
-    $("#userIn").html("");
+    //$("#userIn").html("");
     localStorage.setItem('PrevState', false);
+    localStorage.setItem('Index', 0);
+    //localStorage.setItem('PrevUser', "");
 }
 function search() {
     var path = "http://127.0.0.1:8888/images/";
     $tbody.empty();
+    $('#commentDiv').hide();
     var count = 0;
-    alert("Searchissa: " + tagList);
+    //alert("Searchissa: " + tagList);
     for (var j = 0; j <= tagList.length - 1; j++) {
-        alert("Searchissa: " + tagList[j]);
+        //alert("Searchissa: " + tagList[j]);
         if (tagList[j].indexOf($('#search').val()) > -1) {
-            alert("Tagi: " + tagList[j]);
-            alert(path + tagPathList[j]);
-            $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + path + tagPathList[j] + '" " /></p>');
+            //alert("Tagi: " + tagList[j]);
+            //alert(path + tagPathList[j]);
+            //$tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + path + tagPathList[j] + '" " /></p>');
 
-           /** for (var i = 0; i <= commentPath.length; i++) {
-                if (tagPathList[j] == commentPath[i]) {
-                    if (comments[i] !== undefined) {
-                        $("#comment").append('<li>' + comments[i] + '</li>');
-                    }
-                }
-            }
-*/
+            localStorage.setItem('Index', j);
+            var searched = path + tagPathList[j];
 
-            //$("#comment").append('<li>' + comments[j] + '</li>');
-            //this.count = 1;
+            //$tbody.html("");
+            $('#upnam').text("Uploaded by: " + uploaderList[j]);
+            $tbody.append('<p style="text-align: center;"><img style="display:block;" width="100%" height="100%" src="' + searched + '" " /></p>');
+            //$tbody.append('<div><button onclick="logout()">Nappula</button></div>');
+            
+            
+           
+
+
         }
         else if (tagList.length - 1 == count) {
             var i = Math.floor((Math.random() * 3) + 1);
@@ -246,7 +293,7 @@ function search() {
             count++;
 
         }
-        //alert("J:n arvo: " + j + " Listan pituus: " + tagList.length);
+        
 
     }
 }
